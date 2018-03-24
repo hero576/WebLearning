@@ -46,7 +46,7 @@ INSTALLED_APPS = [
 
 ]
 
-MIDDLEWARE = [
+MIDDLEWARE_CLASSES = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -138,3 +138,12 @@ STATICFILES_DIRS=[
 AUTH_USER_MODEL = 'tt_user.UserInfo'
 
 TINYMCE_DEFAULT_CONFIG = { 'theme': 'advanced', 'width': 600, 'height': 400, }
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.163.com'
+Email_PORT = 25
+EMAIL_HOST_USER = "17601030108@163.com"
+EMAIL_HOST_PASSWORD = "guoming576"
+EMAIL_FROM = "GM平台<17601030108@163.com>"
+
+

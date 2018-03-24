@@ -48,8 +48,16 @@ $(function(){
 		}
 		else
 		{
-			$('#user_name').next().hide();
-			error_name = false;
+			$.get('/user/exists',{'uname':$('#user_name').val()},function (data) {
+				if(data.result>=1){
+					$('#user_name').next().html('用户名已被注册').show()
+					error_name = true;
+				}
+				else{
+					$('#user_name').next().hide();
+					error_name = false;
+				}
+            })
 		}
 	}
 
@@ -92,14 +100,23 @@ $(function(){
 
 		if(re.test($('#email').val()))
 		{
-			$('#email').next().hide();
-			error_email = false;
+			$.get('/user/exists',{'email':$('#email').val()},function (data) {
+				if (data.result>=1){
+					$('#email').next().html('邮箱已被注册').show()
+					error_email = true;
+				}
+				else{
+					$('#email').next().hide();
+					error_email = false;
+				}
+            })
+
 		}
 		else
 		{
 			$('#email').next().html('你输入的邮箱格式不正确')
 			$('#email').next().show();
-			error_check_password = true;
+			error_check = true;
 		}
 
 	}
