@@ -616,8 +616,18 @@ html,body{height:100%}
 	text-indent:10px;
 }
 
+.site_con  .form_group_checkbox input{
+	width:30px;
+}
+
+.site_con select{
+	float:left;
+	margin-right: 1em;
+	margin-top:8px;
+}
+
 .site_con .form_group2{
-	height:90px;
+	height:40px;
 }
 
 .site_area{

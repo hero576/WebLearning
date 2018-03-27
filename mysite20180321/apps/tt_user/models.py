@@ -25,7 +25,7 @@ class UserInfo(BaseModel, AbstractUser):
 
 class AreaInfo(models.Model):
     title = models.CharField(max_length=20)
-    aParent = models.ForeignKey('self', null=True, blank=True)
+    aParent = models.ForeignKey('self', null=True, blank=True,on_delete=False)
 
     class Meta:
         db_table = 'tt_area'
@@ -33,14 +33,14 @@ class AreaInfo(models.Model):
 
 class AddrInfo(BaseModel):
     receiver = models.CharField(max_length=10)
-    province = models.ForeignKey('AreaInfo', related_name='province')
-    city = models.ForeignKey('AreaInfo', related_name='city')
-    district = models.ForeignKey('AreaInfo', related_name='district')
+    province = models.ForeignKey('AreaInfo', related_name='province',on_delete=False)
+    city = models.ForeignKey('AreaInfo', related_name='city',on_delete=False)
+    district = models.ForeignKey('AreaInfo', related_name='district',on_delete=False)
     addr = models.CharField(max_length=20)
     code = models.CharField(max_length=6)
     phone_number = models.CharField(max_length=11)
     isDefault = models.BooleanField(default=False)
-    user = models.ForeignKey('UserInfo')
+    user = models.ForeignKey('UserInfo',on_delete=False)
 
     class Meta:
         db_table = 'AddrInfo'

@@ -6,5 +6,10 @@ urlpatterns = [
     url(r'exists', exists),
     url(r'active/(.+)', active),
     url(r'login', LoginView.as_view()),
+    url(r'logout', userlogout),
+    url(r'info', info),
+    url(r'order', order),
+    url(r'addr', SiteView.as_view()),
+    url(r'addarea', addarea),
 
 ]

@@ -1,0 +1,104 @@
+{% extends "basetop2.html" %}
+
+{% block head %}
+
+    <script>
+
+    $(function () {
+
+        var sprovince = $(".Province")
+
+        $.get("/user/addarea",function (data) {
+            $.each(data.result,function (i,n) {
+                sprovince.append("<option value="+ n.id +">"+n.title)
+            })
+        })
+        var scity = $(".City")
+        var sdictrict = $(".Dictrict")
+
+        $(".Province").change(function () {
+            $.get("/user/addarea",{"id":$(".Province option:selected ").val()},function (data) {
+                scity.empty().append("<option value=0>请选择市")
+                sdictrict.empty().append("<option value=0>请选择区县")
+                $.each(data.result,function (i,n) {
+                scity.append("<option value="+ n.id +">"+n.title)
+            })
+            })
+        })
+
+        $(".City").change(function () {
+            $.get("/user/addarea",{"id":$(".City option:selected ").val()},function (data) {
+                sdictrict.empty().append("<option value=0>请选择区县")
+                $.each(data.result,function (i,n) {
+                sdictrict.append("<option value="+ n.id +">"+n.title)
+            })
+            })
+        })
+
+    })
+
+    </script>
+
+
+{% endblock head %}
+
+{% block body2 %}
+	<div class="main_con clearfix">
+		<div class="left_menu_con clearfix">
+			<h3>用户中心</h3>
+			<ul>
+				<li><a href="/user/info">· 个人信息</a></li>
+				<li><a href="/user/order">· 全部订单</a></li>
+				<li><a href="#" class="active">· 收货地址</a></li>
+			</ul>
+		</div>
+
+		<div class="right_content clearfix">
+				<h3 class="common_title2">收货地址</h3>
+				<div class="site_con">
+					<dl>
+                        {% for addr in addr_list %}
+                            {% if addr.isDefault %}
+                                <dt>当前地址：</dt>
+                            {% endif %}
+						    <dd>{{ addr.province.title }} {{ addr.city.title }} {{ addr.district.title }} （{{ addr.receiver }} 收） {{ addr.phone_number }}</dd>
+                        {% empty %}
+						    <dd>您还没有录入地址信息。</dd>
+                        {% endfor %}
+					</dl>
+				</div>
+				<h3 class="common_title2">编辑地址</h3>
+				<div class="site_con">
+					<form method="post">
+                        {% csrf_token %}
+						<div class="form_group">
+							<label>收件人：</label>
+							<input type="text" name="receiver" value="{{ receiver }}">
+						</div>
+						<div class="form_group form_group2">
+							<label>详细地址：</label>
+							<select name="province" class="Province"><option value=”0”>请选择省</select>
+							<select name="city" class="City"><option value=”0”>请选择市</select>
+							<select name="district" class="Dictrict"><option value=”0”>请选择区县</select>
+							<input type="text" name="addr" class="Addr" value="{{ addr }}">
+						</div>
+						<div class="form_group">
+							<label>邮编：</label>
+							<input type="text" name="code" value="{{ code }}">
+						</div>
+						<div class="form_group">
+							<label>手机：</label>
+							<input type="text" name="phone" value="{{ phone_numbe }}">
+						</div>
+						<div class="form_group form_group_checkbox">
+							<label>默认：</label>
+							<input type="checkbox" name="isDefault">
+						</div>
+						<input type="submit" value="提交" class="info_submit">
+					</form>
+                    <p class="err_info" style="color:red;margin-left:100px;">{{ err_info }}</p>
+				</div>
+		</div>
+	</div>
+
+{% endblock body2 %}

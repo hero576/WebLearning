@@ -46,7 +46,7 @@ INSTALLED_APPS = [
 
 ]
 
-MIDDLEWARE_CLASSES = [
+MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -145,5 +145,29 @@ Email_PORT = 25
 EMAIL_HOST_USER = "17601030108@163.com"
 EMAIL_HOST_PASSWORD = "guoming576"
 EMAIL_FROM = "GM平台<17601030108@163.com>"
+
+# 缓存    实现快速读取数据的目的
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379/5",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
+    }
+}
+# Session
+# http://django-redis-chs.readthedocs.io/zh_CN/latest/#session-backend
+# 如果没有配置的话，session默认存储到默认数据库。
+SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+SESSION_CACHE_ALIAS = "default"
+
+LOGIN_URL="/user/login"
+
+DEFAULT_FILE_STORAGE = 'utils.storage.FdfsStorage'
+
+FDFS_SERVER='http://127.0.0.1:8888/'
+FDFS_CLIENT=os.path.join(BASE_DIR,'utils/fdfs_client.conf')
+
 
 
