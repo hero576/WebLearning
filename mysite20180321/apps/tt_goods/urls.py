@@ -8,5 +8,6 @@ urlpatterns = [
     url(r'^test', test),
     url(r'^(\d+)', detail),
     url(r'^list(\d+)', list_sku),
-    url(r'^search/', include(haystack.urls)),
+    # url(r'^search/', include(haystack.urls)),
+    url(r'^search/',MySearchView.as_view())
 ]

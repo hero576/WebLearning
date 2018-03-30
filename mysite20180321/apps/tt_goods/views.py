@@ -4,6 +4,7 @@ from django.conf import settings
 from django.core.cache import cache
 from django_redis import get_redis_connection
 from django.core.paginator import Paginator,Page
+from haystack.generic_views import SearchView
 
 # Create your views here.
 
@@ -144,3 +145,10 @@ def list_sku(request, category_id):
         'plist':plist,
     }
     return render(request, "list.html", context)
+
+class MySearchView(SearchView):
+    def get_context_data(self, *args, **kwargs):
+        context=super().get_context_data(*args, **kwargs)
+        context["title"]="全文搜索"
+
+        return context
