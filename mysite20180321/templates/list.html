@@ -1,0 +1,103 @@
+{% extends "basetop_goods.html" %}
+{% block bodygoods %}
+
+    <div class="navbar_con">
+        <div class="navbar clearfix">
+            <div class="subnav_con fl">
+                <h1>全部商品分类</h1>
+                <span></span>
+                <ul class="subnav">
+                    {% for category in category_list %}
+                        <li><a href="#" class="{{ category.logo }}">{{ category.name }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <ul class="navlist fl">
+                <li><a href="/">首页</a></li>
+                <li class="interval">|</li>
+                <li><a href="/">手机生鲜</a></li>
+                <li class="interval">|</li>
+                <li><a href="/">抽奖</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="breadcrumb">
+        <a href="#">全部分类</a>
+        <span>></span>
+        <a href="#">{{ cate.name }}</a>
+    </div>
+
+    <div class="main_wrap clearfix">
+        <div class="l_wrap fl clearfix">
+            <div class="new_goods">
+                <h3>新品推荐</h3>
+                <ul>
+                    {% for sug in suggest_list %}
+                        <li>
+                            <a href="#"><img src="{{ sug.default_image.url }}"></a>
+                            <h4><a href="#">{{ sug.name }}</a></h4>
+                            <div class="prize">￥{{ sug.price }}</div>
+                        </li>
+                    {% endfor %}
+
+                </ul>
+            </div>
+        </div>
+
+        <div class="r_wrap fr clearfix">
+            <div class="sort_bar">
+                     <a href="?order=1" {% if order == 1 %}class="active"{% endif %}>默认</a>
+               {% if order == 2 %}
+                    <a href="?order=3" {% if order == 2 %}class="active"{% endif %}>价格</a>
+                {% else %}
+                    <a href="?order=2" {% if order == 3 %}class="active"{% endif %}>价格</a>
+                {% endif %}
+                     <a href="?order=4" {% if order == 4 %}class="active"{% endif %}>人气</a>
+           </div>
+
+            <ul class="goods_type_list clearfix">
+                {% for category in p %}
+                    <li>
+                        <a href="/{{ category.id }}"><img src="{{ category.default_image.url }}"></a>
+                        <h4><a href="{{ category.id }}">{{ category.name }}</a></h4>
+                        <div class="operate">
+                            <span class="prize">￥{{ category.price }}</span>
+                            <span class="unit">{{ category.price }}/{{ category.unit }}</span>
+                            <a href="#" class="add_goods" title="加入购物车"></a>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+
+            <div class="">
+
+                {% if p.has_pervious %}
+                    <a href="?pindex=1&order={{ order }}">首页</a>
+                    <a href="?pindex{{ index|add:-1 }}&order={{ order }}">上一页</a>
+                {% else %}
+                    <span>首页</span>
+                    <span>上一页</span>
+                {% endif %}
+
+                {% for index in plist %}
+                    {% if index == p.number %}
+                        <span class="active">{{ index }}</span>
+                    {% else %}
+                        <a href="?pindex={{ index }}&order={{ order }}">{{ index }}</a>
+                    {% endif %}
+                {% endfor %}
+
+                {% if p.has_next %}
+                    <a href="?pindex={{ p.number |add:1 }}&order={{ order }}">下一页</a>
+                    <a href="?pindex={{ p.paginator.num_pages }}&order={{ order }}">末页</a>
+                {% else %}
+                    <span>下一页</span>
+                    <span>末页</span>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+
+{% endblock bodygoods %}

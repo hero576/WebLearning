@@ -26,7 +26,7 @@ SECRET_KEY = 't-87@ykif+k8)_)c*liy5gd!ar-u6#hts@3#d%jlw2nf9k4z(1'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*',]
 
 
 # Application definition
@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'tt_goods',
     'tt_order',
     'tinymce',
+    'haystack',
 
 ]
 
@@ -166,8 +167,21 @@ LOGIN_URL="/user/login"
 
 DEFAULT_FILE_STORAGE = 'utils.storage.FdfsStorage'
 
-FDFS_SERVER='http://127.0.0.1:8888/'
+FDFS_SERVER='http://192.168.37.128:8888/'
 FDFS_CLIENT=os.path.join(BASE_DIR,'utils/fdfs_client.conf')
 
+GENERATE_DIRS=os.path.join(BASE_DIR,"static/html/")
+
+# 配置搜索引擎后端
+HAYSTACK_CONNECTIONS = {
+  'default': {
+      # 使用whoosh引擎：提示，如果不需要使用jieba框架实现分词，就使用whoosh_backend
+      'ENGINE': 'haystack.backends.whoosh_cn_backend.WhooshEngine',
+      # 索引文件路径
+      'PATH': os.path.join(BASE_DIR, 'whoosh_index'),
+  }
+}
+# 当添加、修改、删除数据时，自动生成索引
+HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
 
 
